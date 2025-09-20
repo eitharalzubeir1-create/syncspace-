@@ -1,0 +1,201 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* Modern Gen-Z Color Palette */
+    --background: 220 15% 97%;
+    --foreground: 220 15% 8%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 8%;
+    
+    /* Vibrant Primary Colors */
+    --primary: 250 95% 65%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 250 95% 75%;
+    
+    /* Fresh Secondary Colors */
+    --secondary: 310 85% 70%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 310 85% 80%;
+    
+    /* Accent Colors */
+    --accent: 180 95% 55%;
+    --accent-foreground: 220 15% 8%;
+    --accent-glow: 180 95% 65%;
+    
+    /* Neutral Tones */
+    --muted: 220 10% 95%;
+    --muted-foreground: 220 10% 45%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 250 95% 65%;
+    
+    /* Status Colors */
+    --success: 120 80% 50%;
+    --success-foreground: 0 0% 100%;
+    --warning: 45 95% 60%;
+    --warning-foreground: 220 15% 8%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Interactive Elements */
+    --online: 120 80% 50%;
+    --busy: 0 84% 60%;
+    --away: 45 95% 60%;
+    --offline: 220 10% 60%;
+    
+    --radius: 1rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+@layer utilities {
+  /* Modern Gradients */
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-glow)) 100%);
+  }
+  
+  .gradient-secondary {
+    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary-glow)) 100%);
+  }
+  
+  .gradient-accent {
+    background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--accent-glow)) 100%);
+  }
+  
+  .gradient-rainbow {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 50%, hsl(var(--accent)) 100%);
+  }
+  
+  .gradient-map-terrain {
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 50%, #16a34a 100%);
+  }
+  
+  .gradient-map-satellite {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  }
+  
+  /* Glass Effects */
+  .glass-effect {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .glass-dark {
+    backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Map Styles */
+  .map-roadmap {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+  
+  .map-terrain {
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 50%, #86efac 100%);
+  }
+  
+  .map-satellite {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #475569 100%);
+  }
+  
+  .map-hybrid {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #dcfce7 100%);
+  }
+  
+  /* Path Animation */
+  .path-animated {
+    animation: path-flow 2s infinite;
+  }
+  
+  .path-glow {
+    filter: drop-shadow(0 0 8px hsl(var(--primary)));
+    animation: path-pulse 1.5s infinite;
+  }
+  
+  /* Status Indicators */
+  .status-online { background: hsl(var(--online)); }
+  .status-busy { background: hsl(var(--busy)); }
+  .status-away { background: hsl(var(--away)); }
+  .status-offline { background: hsl(var(--offline)); }
+  
+  /* Modern Animations */
+  .animate-bounce-subtle {
+    animation: bounce-subtle 0.6s ease-in-out;
+  }
+  
+  .animate-pulse-gentle {
+    animation: pulse-gentle 2s infinite;
+  }
+  
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out;
+  }
+  
+  .animate-slide-in {
+    animation: slide-in 0.3s ease-out;
+  }
+}
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes pulse-gentle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes path-flow {
+  0% { stroke-dashoffset: 20; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes path-pulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 8px hsl(var(--primary)));
+  }
+  50% { 
+    filter: drop-shadow(0 0 16px hsl(var(--primary)));
+  }
+}

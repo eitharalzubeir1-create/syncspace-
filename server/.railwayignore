@@ -1,0 +1,11 @@
+# Ignore development files
+node_modules
+.env
+.env.local
+.env.production
+*.log
+.DS_Store
+dist
+src
+tsconfig.json
+ts-node-dev

@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import pino from 'pino';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import { supabase, getServiceRoleClient } from './supabaseClient';
 import groupsRouter from './routes/groups';
 import schedulesRouter from './routes/schedules';
@@ -12,8 +14,24 @@ dotenv.config();
 const logger = pino({ transport: { target: 'pino-pretty' } });
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+// Security middleware
+app.use(helmet());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://syncspace-alpha.vercel.app'] // Your production frontend domain
+    : ['http://localhost:5173', 'http://localhost:3000'],
+  credentials: true
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.'
+});
+app.use('/api/', limiter);
+
+app.use(express.json({ limit: '10mb' }));
 
 // API routes
 app.use('/api/groups', groupsRouter);

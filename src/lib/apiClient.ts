@@ -1,5 +1,5 @@
 // API client for communicating with the backend server
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://syncspace-production.up.railway.app';
 
 export interface ApiResponse<T = any> {
   data?: T;

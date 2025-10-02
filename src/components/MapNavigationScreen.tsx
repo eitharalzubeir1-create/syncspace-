@@ -4,7 +4,48 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Search, Navigation, MapPin, Users, Layers, Plus, MessageCircle, Phone, Globe, Mountain, Satellite, Map as MapIcon } from 'lucide-react';
-import { campusBuildings, campusRooms, campusLocations, sampleFriendLocations, type Building } from '@/data/campusData';
+import { supabase } from '@/lib/supabaseClient';
+
+interface Building {
+  id: string;
+  name: string;
+  code: string;
+  floors: number;
+  x: number;
+  y: number;
+  color: string;
+  description: string;
+}
+
+interface Room {
+  id: string;
+  number: string;
+  building_code: string;
+  floor: number;
+  name?: string;
+}
+
+interface CampusLocation {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  icon: string;
+  description: string;
+}
+
+interface FriendLocation {
+  id: number | string;
+  name: string;
+  avatar: string;
+  building: string;
+  floor: number;
+  room: string;
+  x: number;
+  y: number;
+  status: string;
+  lastSeen: string;
+}
 import DirectionFlowScreen from './DirectionFlowScreen';
 import FriendMarker from './FriendMarker';
 import LocationBottomSheet from './LocationBottomSheet';
@@ -27,6 +68,37 @@ const MapNavigationScreen: React.FC<MapNavigationScreenProps> = ({ onBack }) => 
   const [mapStyle, setMapStyle] = useState<'roadmap' | 'terrain' | 'satellite' | 'hybrid'>('roadmap');
   const [showMapStyles, setShowMapStyles] = useState(false);
   const [currentPath, setCurrentPath] = useState<{x: number, y: number}[] | null>(null);
+  const [campusBuildings, setCampusBuildings] = useState<Building[]>([]);
+  const [campusRooms, setCampusRooms] = useState<Room[]>([]);
+  const [campusLocations, setCampusLocations] = useState<CampusLocation[]>([]);
+  const [sampleFriendLocations, setSampleFriendLocations] = useState<FriendLocation[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [buildingsRes, roomsRes, locationsRes, friendsRes] = await Promise.all([
+          supabase.from('campus_buildings').select('*'),
+          supabase.from('campus_rooms').select('*'),
+          supabase.from('campus_locations').select('*'),
+          supabase.from('friend_locations').select('*'),
+        ]);
+
+        if (buildingsRes.error) console.error('Error fetching buildings:', buildingsRes.error);
+        if (roomsRes.error) console.error('Error fetching rooms:', roomsRes.error);
+        if (locationsRes.error) console.error('Error fetching locations:', locationsRes.error);
+        if (friendsRes.error) console.error('Error fetching friends:', friendsRes.error);
+
+        setCampusBuildings(buildingsRes.data || []);
+        setCampusRooms(roomsRes.data || []);
+        setCampusLocations(locationsRes.data || []);
+        setSampleFriendLocations(friendsRes.data || []);
+      } catch (err) {
+        console.error('Failed to load campus data:', err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Filter search results based on query
   useEffect(() => {

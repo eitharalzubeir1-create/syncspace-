@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Search, Navigation, MapPin, Users, Layers, Plus, MessageCircle, Phone, Globe, Mountain, Satellite, Map as MapIcon } from 'lucide-react';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase, supabaseConfigured } from '@/lib/supabaseClient';
 
 interface Building {
   id: string;
@@ -74,6 +74,10 @@ const MapNavigationScreen: React.FC<MapNavigationScreenProps> = ({ onBack }) => 
   const [sampleFriendLocations, setSampleFriendLocations] = useState<FriendLocation[]>([]);
 
   useEffect(() => {
+    if (!supabaseConfigured) {
+      console.warn('Supabase is not configured. Skipping campus data fetch.');
+      return;
+    }
     const fetchData = async () => {
       try {
         const [buildingsRes, roomsRes, locationsRes, friendsRes] = await Promise.all([
@@ -98,7 +102,7 @@ const MapNavigationScreen: React.FC<MapNavigationScreenProps> = ({ onBack }) => 
     };
 
     fetchData();
-  }, []);
+  }, [supabaseConfigured]);
 
   // Filter search results based on query
   useEffect(() => {
